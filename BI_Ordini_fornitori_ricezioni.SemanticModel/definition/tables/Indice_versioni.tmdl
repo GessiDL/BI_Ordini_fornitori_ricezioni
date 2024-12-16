@@ -34,7 +34,7 @@ table Indice_versioni
 			)
 			RETURN
 			IF(
-			    (UltimaModifica >= UltimoRilascio || ISBLANK(UltimoRilascio)),
+			    (UltimaModifica > UltimoRilascio || ISBLANK(UltimoRilascio)),
 			    VersioneModifica & ".dev",
 			    VersioneRilascio
 			)
