@@ -1,0 +1,58 @@
+table 'S/Conto (sco) - Ordini'
+	lineageTag: 8194df3b-e631-4fe4-be05-3e5887aa2985
+
+	column codice_fornitore
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: a5503e4a-0365-4fe7-bc95-2d0775e691c4
+		summarizeBy: none
+		sourceColumn: codice_fornitore
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Descrizione fornitore'
+		dataType: string
+		lineageTag: 0f640658-7413-4b06-8c34-6def10840019
+		summarizeBy: none
+		sourceColumn: Descrizione fornitore
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Codice fornitore' =
+			
+			VAR NumeroOrigine = 'S/Conto (sco) - Ordini'[codice_fornitore]
+			VAR Mastro = QUOTIENT(NumeroOrigine,10000000)
+			VAR x = NumeroOrigine - (Mastro*10000000)
+			VAR Conto = QUOTIENT(x,10000)
+			VAR Sottoconto = x-(Conto*10000)
+			RETURN Mastro & "-" & Conto & "-" & Sottoconto
+		lineageTag: 86086b73-ec2e-40d6-b3c0-ebc12ee861ce
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Codice fornitore Galileo'
+		dataType: string
+		lineageTag: bc69d52f-61cf-46e0-9a09-dad88e8e7eea
+		summarizeBy: none
+		sourceColumn: Codice fornitore Galileo
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'S/Conto (sco) - Ordini' = m
+		mode: import
+		source =
+				let
+				    Origine = Odbc.Query("dsn=F12 Informix DB", "SELECT * FROM sco"),
+				    #"Rimosse altre colonne" = Table.SelectColumns(Origine,{"sc_cod_s_conto", "sc_descr", "sc_cod_precedente"}),
+				    #"Rinominate colonne" = Table.RenameColumns(#"Rimosse altre colonne",{{"sc_cod_s_conto", "codice_fornitore"}, {"sc_descr", "Descrizione fornitore"}, {"sc_cod_precedente", "Codice fornitore Galileo"}})
+				in
+				    #"Rinominate colonne"
+
+	annotation PBI_NavigationStepName = Navigazione
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,83 @@
+relationship AutoDetected_91ef95cd-d53a-43a1-a00b-b83413b451f2
+	fromColumn: 'Testata ordini fornitore (ofi)'.codice_fornitore
+	toColumn: 'S/Conto (sco) - Ordini'.codice_fornitore
+
+relationship 587bf01e-1ed4-45a0-b520-08b534023351
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'Righe ordine fornitore (ofr)'.'Data Consegna Prevista'
+	toColumn: LocalDateTable_132b607c-27f8-4994-ba57-54f8345e3c0b.Date
+
+relationship 9ae5e308-8314-4e99-9af4-4640a078efe1
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'Righe ordine fornitore (ofr)'.'Data Consegna Richiesta'
+	toColumn: LocalDateTable_3a70cbd3-54e5-4181-9f7c-649a04958113.Date
+
+relationship a81ac3d4-de57-44c8-a130-222819b362a3
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'Righe ordine fornitore (ofr)'.'Data Conferma'
+	toColumn: LocalDateTable_2f00e4b1-f375-4312-870b-53719b1b4ab3.Date
+
+relationship AutoDetected_272c3913-a9fd-4dbb-b461-7a172699c660
+	fromColumn: 'Righe ordine fornitore (ofr)'.numero_ordine
+	toColumn: 'Testata ordini fornitore (ofi)'.numero_ordine
+
+relationship AutoDetected_3c5877bd-ce0e-4848-9d33-9f7ea183d261
+	fromColumn: 'Righe ordine fornitore (ofr)'.stato_riga
+	toColumn: 'Stato riga'.stato_riga
+
+relationship e3b25609-7117-c948-15f5-ce4b398853bb
+	fromColumn: 'Testata ordini fornitore (ofi)'.tipo_ordine
+	toColumn: 'Tipologia ordine'.tipo_ordine
+
+relationship e771e4c6-58ff-4ddc-9f42-152e9a633519
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'Testata ricezioni merce (iirm)'.'Data Documento Fornitore'
+	toColumn: LocalDateTable_b2ed8db8-3a1c-4c0b-a208-73d35304853d.Date
+
+relationship d17c2b4c-5a76-4a7b-b25e-0ac779234d3d
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'Ricezione merce (rirm+iirm)'.'Data Documento Fornitore'
+	toColumn: LocalDateTable_afee61a2-fd7f-4be3-ac95-62aba5e052e2.Date
+
+relationship f1b918c0-3f81-49db-9d2f-26d3a235c23a
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'Ricezione merce (rirm+iirm)'.'Data Registrazione'
+	toColumn: LocalDateTable_f6d792f5-0a20-43de-a5a9-bd01db5bb40e.Date
+
+relationship 21609f7d-fbd7-43e2-8afa-c7712d58d5b0
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'Testata ricezioni merce (iirm)'.'Data Registrazione'
+	toColumn: LocalDateTable_a35130cf-76eb-4aee-8b2a-25ae1d4c7fdf.Date
+
+relationship 9f379ed8-ec0e-2b17-ebf4-b59377e78dc5
+	fromColumn: 'Ricezione merce (rirm+iirm)'.'codice_fornitore (testata)'
+	toColumn: 'S/Conto (sco) - Ricezioni'.codice_fornitore
+
+relationship 23ba3994-3d18-e0d5-bada-556cc1a17b05
+	fromColumn: 'Ricezione merce (rirm+iirm)'.Ordine+Riga
+	toColumn: 'Righe ordine fornitore (ofr)'.Ordine+Riga
+
+relationship 70b71e69-494a-41d5-aafa-b419b6a0f50f
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'Testata ordini fornitore (ofi)'.'Data Ordine'
+	toColumn: LocalDateTable_b1022802-5034-42d7-8dca-93ccb02e3003.Date
+
+relationship 403cb123-6e31-4fb8-a01b-4d8e165df625
+	joinOnDateBehavior: datePartOnly
+	fromColumn: Indice_versioni.'Data inizio modifiche'
+	toColumn: LocalDateTable_fb27bf6c-4a41-4c2d-9301-0e542f2b9078.Date
+
+relationship 15540cd0-b4b8-43b3-b741-93d1704da2b4
+	joinOnDateBehavior: datePartOnly
+	fromColumn: Indice_versioni.'Data rilascio'
+	toColumn: LocalDateTable_da212e85-f7ac-4d0c-bc05-8702c03a0f64.Date
+
+relationship 7d819695-e28c-48e6-9e48-c0220f4f4417
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'Ricezioni Galileo (MGMOF01F)'.'Data Ricezione'
+	toColumn: LocalDateTable_d53d1e24-8f70-45a0-aa4f-ef13e8c9264c.Date
+
+relationship a0486d0a-a61e-53ce-db47-fe3f102c74b7
+	fromColumn: 'Ricezioni Galileo (MGMOF01F)'.OrdineF12+Riga_2
+	toColumn: 'Righe ordine fornitore (ofr)'.OrdineF12+Riga_2
+

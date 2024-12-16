@@ -1,0 +1,731 @@
+table 'Righe ricezione merce (rirm)'
+	isHidden
+	lineageTag: cc16fb4f-509c-4554-aece-d05cbf132f2d
+
+	column 'Quantità Ricevuta'
+		dataType: double
+		isHidden
+		formatString: 0
+		lineageTag: 0a10f82d-51d9-4147-8059-5c7bbc50d080
+		summarizeBy: none
+		sourceColumn: Quantità Ricevuta
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = User
+
+	column 'Quantità Accettata'
+		dataType: double
+		isHidden
+		formatString: 0
+		lineageTag: 1844176e-c638-4dd7-b0ef-577310830dcd
+		summarizeBy: none
+		sourceColumn: Quantità Accettata
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = User
+
+	column 'Quantità Ordinata'
+		dataType: double
+		isHidden
+		formatString: 0
+		lineageTag: 461b2da3-33cd-4c2b-9cff-4ff3046cd30f
+		summarizeBy: none
+		sourceColumn: Quantità Ordinata
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = User
+
+	column numero_ricezione
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: b2b8a446-f29b-4416-baee-50411abef19e
+		summarizeBy: sum
+		sourceColumn: numero_ricezione
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Riga Ricezione Numero'
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 912e9f67-4338-49a1-9a86-84d5d70ea90a
+		summarizeBy: none
+		sourceColumn: Riga Ricezione Numero
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = User
+
+	column 'Riga Ordine Numero'
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: c67eab2b-17c4-4934-9407-779ca710e219
+		summarizeBy: none
+		sourceColumn: Riga Ordine Numero
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = User
+
+	column 'Codice Articolo'
+		dataType: string
+		isHidden
+		lineageTag: 48b0d27b-d156-46fc-b8d3-1bdf401af7cf
+		summarizeBy: none
+		sourceColumn: Codice Articolo
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Descrizione Articolo'
+		dataType: string
+		isHidden
+		lineageTag: 3084d6e6-7616-4ad0-8bdf-b81ecf5ebf97
+		summarizeBy: none
+		sourceColumn: Descrizione Articolo
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Unità Misura'
+		dataType: string
+		isHidden
+		lineageTag: 2bbe4d62-870d-4704-aea6-abcbdb827179
+		summarizeBy: none
+		sourceColumn: Unità Misura
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Numero Ricezione' =
+			
+			VAR NumeroOriginale = 'Righe ricezione merce (rirm)'[numero_ricezione]-- Il numero originale
+			VAR LunghezzaPrefisso = 2 -- Il numero di cifre fisse del prefisso
+			VAR Prefisso = (LEFT(NumeroOriginale, LunghezzaPrefisso))-10 -- Estrae il prefisso
+			VAR Suffisso = MOD(NumeroOriginale,10000000) -- Estrae il suffisso variabile
+			RETURN Prefisso & "/" & Suffisso
+		isHidden
+		lineageTag: e0c24d2e-43fe-483f-8715-e3061accb454
+		summarizeBy: none
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column numero_ordine
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: c4de70ca-83ea-4c2f-8caa-f49235d193a1
+		summarizeBy: sum
+		sourceColumn: numero_ordine
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Numero Ordine' = ```
+			
+			VAR NumeroOriginale = 'Righe ricezione merce (rirm)'[numero_ordine] -- Il numero originale
+			VAR LunghezzaPrefisso = 2 -- Il numero di cifre fisse del prefisso
+			VAR Prefisso = (LEFT(NumeroOriginale, LunghezzaPrefisso))-10 -- Estrae il prefisso
+			VAR Suffisso = MOD(NumeroOriginale,10000000) -- Estrae il suffisso variabile
+			RETURN 
+			    IF(NumeroOriginale = 0, "Non presente F12", Prefisso & "/" & Suffisso)
+			```
+		isHidden
+		lineageTag: d7ff07c5-45ce-42bd-a6f2-ab9969abdf22
+		summarizeBy: none
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Ordine+Riga =
+			
+			VAR NumeroOrdine = 'Righe ricezione merce (rirm)'[numero_ordine]
+			VAR RigaOrdine = 'Righe ricezione merce (rirm)'[Riga Ordine Numero]
+			RETURN
+			    IF(NumeroOrdine = 0, "Non presente",NumeroOrdine&"-"&RigaOrdine)
+		isHidden
+		lineageTag: d7d7bb46-5862-4ffc-9fce-635dd648be73
+		summarizeBy: none
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column ir_prezzo
+		dataType: double
+		isHidden
+		lineageTag: cc6a760f-0753-4cc3-a64a-cd7fe266d904
+		summarizeBy: sum
+		sourceColumn: ir_prezzo
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column ir_valore_sconto
+		dataType: double
+		isHidden
+		lineageTag: ff1326c9-8bf6-44d1-a5dd-3ee0ff14a9e8
+		summarizeBy: sum
+		sourceColumn: ir_valore_sconto
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column ir_prelo2
+		dataType: double
+		isHidden
+		lineageTag: f0022f42-bc41-4ff6-ac78-5ccd2a9617b1
+		summarizeBy: sum
+		sourceColumn: ir_prelo2
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column ir_valsco2
+		dataType: double
+		isHidden
+		lineageTag: d6c4c257-ef9b-4929-8902-6533e9cac6a6
+		summarizeBy: sum
+		sourceColumn: ir_valsco2
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column ir_cambio
+		dataType: double
+		isHidden
+		lineageTag: a74291cb-8996-4d32-87dd-8e323de125c5
+		summarizeBy: sum
+		sourceColumn: ir_cambio
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column ir_qta_fatturata
+		dataType: double
+		isHidden
+		lineageTag: 76cd3b0d-a5e0-474f-8ceb-8b22eddb215d
+		summarizeBy: sum
+		sourceColumn: ir_qta_fatturata
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column ir_qtaor2
+		dataType: double
+		isHidden
+		lineageTag: 907a48e3-d63c-4858-b5b2-72ff5e59fe20
+		summarizeBy: sum
+		sourceColumn: ir_qtaor2
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column ir_qtari2
+		dataType: double
+		isHidden
+		lineageTag: 874af495-6009-4192-ba84-192bec507999
+		summarizeBy: sum
+		sourceColumn: ir_qtari2
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column ir_qtaac2
+		dataType: double
+		isHidden
+		lineageTag: c928b0c8-78b6-4fbb-bfd6-4b10ab3c8d8b
+		summarizeBy: sum
+		sourceColumn: ir_qtaac2
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column ir_qtafa2
+		dataType: double
+		isHidden
+		lineageTag: 5dbb8e74-b916-4c05-a7cc-4feec0e59785
+		summarizeBy: sum
+		sourceColumn: ir_qtafa2
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column ir_fatt_conv
+		dataType: double
+		isHidden
+		lineageTag: 9f8e0139-c3b1-4e6e-aca3-0d986f41f4af
+		summarizeBy: sum
+		sourceColumn: ir_fatt_conv
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column ir_movim_mag
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 414fbd62-f57c-40a6-abb4-bdeb604120ab
+		summarizeBy: sum
+		sourceColumn: ir_movim_mag
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column ir_sc_c_partita
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 194b2fcc-1006-461e-a675-f00d1981229e
+		summarizeBy: sum
+		sourceColumn: ir_sc_c_partita
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column ir_movim_cont
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 86a6560d-7f01-4906-9b56-0c63d8dac8d2
+		summarizeBy: sum
+		sourceColumn: ir_movim_cont
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column ir_n_r_ord_orig
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 884149e9-31d5-4a55-9319-4ed50f6fd439
+		summarizeBy: sum
+		sourceColumn: ir_n_r_ord_orig
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column ir_conto_lav
+		dataType: string
+		isHidden
+		lineageTag: 83e5e58b-2f54-4756-af03-a97682c77747
+		summarizeBy: none
+		sourceColumn: ir_conto_lav
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column ir_contestato
+		dataType: string
+		isHidden
+		lineageTag: 3701a59a-0d05-4d8d-b77f-880a5fe6fcf6
+		summarizeBy: none
+		sourceColumn: ir_contestato
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column ir_art_anag
+		dataType: string
+		isHidden
+		lineageTag: 2ceb748e-fe6a-4561-811a-9dc2342cd545
+		summarizeBy: none
+		sourceColumn: ir_art_anag
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column ir_sigla_sconto
+		dataType: string
+		isHidden
+		lineageTag: 1a595bb8-c025-4d5d-a3f9-52def3312ed0
+		summarizeBy: none
+		sourceColumn: ir_sigla_sconto
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column ir_descr_agg
+		dataType: string
+		isHidden
+		lineageTag: f498e4b0-812f-4f33-9c59-ba942a74a5d8
+		summarizeBy: none
+		sourceColumn: ir_descr_agg
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column ir_dep_carico
+		dataType: string
+		isHidden
+		lineageTag: 9731fe3d-279f-4b73-9f6e-711ad02e67c7
+		summarizeBy: none
+		sourceColumn: ir_dep_carico
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column ir_aliq_iva
+		dataType: string
+		isHidden
+		lineageTag: b06afdc2-afd0-4657-8df9-2304b7dce27a
+		summarizeBy: none
+		sourceColumn: ir_aliq_iva
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column ir_fatt_ric
+		dataType: string
+		isHidden
+		lineageTag: dad792f1-41a7-4745-8833-8ea55e63e880
+		summarizeBy: none
+		sourceColumn: ir_fatt_ric
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column ir_un_mis_2
+		dataType: string
+		isHidden
+		lineageTag: eb93f862-6778-4d16-b8a5-2b48f4f7dc38
+		summarizeBy: none
+		sourceColumn: ir_un_mis_2
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column ir_sigla_lotto
+		dataType: string
+		isHidden
+		lineageTag: ab034baf-9bf8-44cc-ab5f-1a015fbe7527
+		summarizeBy: none
+		sourceColumn: ir_sigla_lotto
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column ir_cod_artfor
+		dataType: string
+		isHidden
+		lineageTag: b923cb1b-2a7f-43ea-96a1-7d788bd05263
+		summarizeBy: none
+		sourceColumn: ir_cod_artfor
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column ir_colli
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 5eee3ec8-22e5-40d0-8117-cf8d6fca2eb2
+		summarizeBy: sum
+		sourceColumn: ir_colli
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column ir_qtana2
+		dataType: double
+		isHidden
+		lineageTag: a44e3f31-a29b-432c-9977-23b910650b0d
+		summarizeBy: sum
+		sourceColumn: ir_qtana2
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column ir_qta_non_acc
+		dataType: double
+		isHidden
+		lineageTag: ae02f142-7473-4742-9488-48ccf2628639
+		summarizeBy: sum
+		sourceColumn: ir_qta_non_acc
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column ir_qtasc2
+		dataType: double
+		isHidden
+		lineageTag: e9075034-e6c9-43e4-855c-cd6da3791221
+		summarizeBy: sum
+		sourceColumn: ir_qtasc2
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column ir_qta_scarto
+		dataType: double
+		isHidden
+		lineageTag: 7886a9aa-c2c2-415f-9d68-be5c7f908ac9
+		summarizeBy: sum
+		sourceColumn: ir_qta_scarto
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column ir_omaggio
+		dataType: string
+		isHidden
+		lineageTag: ac0b0672-66b5-44e5-83b4-b0da84e25a3f
+		summarizeBy: none
+		sourceColumn: ir_omaggio
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column ir_cod_iden_gara
+		dataType: string
+		isHidden
+		lineageTag: d3e212a5-cac8-4575-b1f4-b07d3594a755
+		summarizeBy: none
+		sourceColumn: ir_cod_iden_gara
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column ir_cod_uni_prog
+		dataType: string
+		isHidden
+		lineageTag: f0e63985-b460-480d-8e62-b9a8a13b9e08
+		summarizeBy: none
+		sourceColumn: ir_cod_uni_prog
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column ir_centro_costo
+		dataType: string
+		isHidden
+		lineageTag: 4b4f1374-615d-4b39-bbf1-f7ede33da2d4
+		summarizeBy: none
+		sourceColumn: ir_centro_costo
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column ir_cdc_nota
+		dataType: string
+		isHidden
+		lineageTag: 6838887e-67c9-4faa-acc6-0b4cf8521f18
+		summarizeBy: none
+		sourceColumn: ir_cdc_nota
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column ir_cassetta
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: b38b26d6-fdee-4a4b-8d07-b69543a2e902
+		summarizeBy: sum
+		sourceColumn: ir_cassetta
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column ir_qta_non_lav
+		dataType: double
+		isHidden
+		lineageTag: 1ea7aa55-e1ce-46fe-8d18-94ab19167b9e
+		summarizeBy: sum
+		sourceColumn: ir_qta_non_lav
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column ir_qta_non_lav2
+		dataType: double
+		isHidden
+		lineageTag: 093afd43-3478-4bd4-a51a-9947b581cdd2
+		summarizeBy: sum
+		sourceColumn: ir_qta_non_lav2
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column ir_cons_cos_m
+		dataType: string
+		isHidden
+		lineageTag: df9e246d-404e-44d4-bcd4-18ff7a9424bb
+		summarizeBy: none
+		sourceColumn: ir_cons_cos_m
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column ir_verbale
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: f39f695a-7110-4fdc-836a-2893e8e9d6b8
+		summarizeBy: sum
+		sourceColumn: ir_verbale
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column ir_non_def_prezzo
+		dataType: string
+		isHidden
+		lineageTag: ee8598e8-1cf8-4f57-8092-893f6591edb0
+		summarizeBy: none
+		sourceColumn: ir_non_def_prezzo
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column ir_progr_ddt
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: d61b72cc-a837-4101-9f44-b4185fa4e94b
+		summarizeBy: sum
+		sourceColumn: ir_progr_ddt
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column ir_n_r_ddt
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 1c0f2500-3394-4f21-8be3-2a3746b9b5f2
+		summarizeBy: sum
+		sourceColumn: ir_n_r_ddt
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column ir_nome_comb
+		dataType: string
+		isHidden
+		lineageTag: 7c87514a-dc76-437f-8949-f4eddff7889d
+		summarizeBy: none
+		sourceColumn: ir_nome_comb
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column ir_comm_rif
+		dataType: string
+		isHidden
+		lineageTag: 54784f45-0d5e-43c1-921a-f9c472a2f70c
+		summarizeBy: none
+		sourceColumn: ir_comm_rif
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Righe ricezione merce (rirm)' = m
+		mode: import
+		source =
+				let
+				    Origine = Odbc.Query("dsn=F12 Informix DB", "SELECT * FROM rirm"),
+				    #"Rinominate colonne" = Table.RenameColumns(Origine,{{"ir_qta_ricev", "Quantità Ricevuta"}, {"ir_qta_accet", "Quantità Accettata"}, {"ir_qta_ordinata", "Quantità Ordinata"}, {"ir_ser_iirm", "numero_ricezione"}, {"ir_num_riga_ric", "Riga Ricezione Numero"}, {"ir_num_riga_ord", "Riga Ordine Numero"}, {"ir_sigla_art", "Codice Articolo"}, {"ir_descr_art", "Descrizione Articolo"}, {"ir_unita_mis", "Unità Misura"}, {"ir_ser_ord", "numero_ordine"}})
+				in
+				    #"Rinominate colonne"
+
+	changedProperty = IsHidden
+
+	annotation PBI_NavigationStepName = Navigazione
+
+	annotation PBI_ResultType = Table
+

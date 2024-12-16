@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "SemanticModel",
+    "displayName": "BI_Ordini_fornitori_ricezioni"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "9e1f4c26-3199-46ff-9953-618d6b9eb424"
+  }
+}

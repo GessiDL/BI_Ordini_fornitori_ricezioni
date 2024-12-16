@@ -1,0 +1,33 @@
+table 'Stato riga'
+	lineageTag: 23318f04-8559-4729-be9c-07cdcb75e051
+
+	column stato_riga
+		dataType: string
+		isHidden
+		lineageTag: 4691300d-98b7-4d19-8c4d-2dfee9d4cccf
+		summarizeBy: none
+		sourceColumn: stato_riga
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Stato Riga Ordine'
+		dataType: string
+		lineageTag: e81a9f99-19e6-4364-8a2c-6fac3a42f630
+		summarizeBy: none
+		sourceColumn: Stato Riga Ordine
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Stato riga' = m
+		mode: import
+		source =
+				let
+				    Origine = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i45WclTSUXIsSC0qSVSK1YlWcgVyXcsSiyE8ZyDPOSOzFMoNBnKD84sLUkH8WAA=", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [stato_riga = _t, #"Stato Riga Ordine" = _t]),
+				    #"Modificato tipo" = Table.TransformColumnTypes(Origine,{{"stato_riga", type text}, {"Stato Riga Ordine", type text}})
+				in
+				    #"Modificato tipo"
+
+	annotation PBI_ResultType = Table
+

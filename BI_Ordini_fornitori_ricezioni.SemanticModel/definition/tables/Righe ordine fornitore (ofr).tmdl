@@ -1,0 +1,204 @@
+table 'Righe ordine fornitore (ofr)'
+	lineageTag: 4c735d43-317a-4d83-a101-5091cc0fd097
+
+	column 'Prezzo Lordo'
+		dataType: double
+		formatString: "€"\ #,0.00;-"€"\ #,0.00;"€"\ #,0.00
+		lineageTag: 60379363-8760-4813-9d24-f1ea1e4672fb
+		summarizeBy: none
+		sourceColumn: Prezzo Lordo
+
+		annotation SummarizationSetBy = User
+
+	column 'Valore Sconto'
+		dataType: double
+		formatString: "€"\ #,0.00;-"€"\ #,0.00;"€"\ #,0.00
+		lineageTag: ae28824e-87b1-41c4-9579-9fd08fede6d3
+		summarizeBy: none
+		sourceColumn: Valore Sconto
+
+		annotation SummarizationSetBy = User
+
+	column 'Quantità Ordinata'
+		dataType: double
+		formatString: 0
+		lineageTag: 8c3aef75-1397-44aa-8372-9e31bad56dcc
+		summarizeBy: none
+		sourceColumn: Quantità Ordinata
+
+		annotation SummarizationSetBy = User
+
+	column 'Quantità Evasa'
+		dataType: double
+		lineageTag: 92ba166e-59e6-41d0-971f-c1ebeb3d17fa
+		summarizeBy: none
+		sourceColumn: Quantità Evasa
+
+		annotation SummarizationSetBy = User
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column numero_ordine
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 5e420ad2-c6bd-47d5-94d5-3d4b4b9f403d
+		summarizeBy: none
+		sourceColumn: numero_ordine
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Data Consegna Prevista'
+		dataType: dateTime
+		formatString: dd/mm/yyyy
+		lineageTag: 84bcd8dd-2277-4184-ab1d-91598287042a
+		summarizeBy: none
+		sourceColumn: Data Consegna Prevista
+
+		variation Variazione
+			isDefault
+			relationship: 587bf01e-1ed4-45a0-b520-08b534023351
+			defaultHierarchy: LocalDateTable_132b607c-27f8-4994-ba57-54f8345e3c0b.'Gerarchia data'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+		annotation PBI_FormatHint = {"isDateTimeCustom":true}
+
+	column 'Data Consegna Richiesta'
+		dataType: dateTime
+		formatString: dd/mm/yyyy
+		lineageTag: f0a1fd1c-d93a-4365-ae12-4c90112c6628
+		summarizeBy: none
+		sourceColumn: Data Consegna Richiesta
+
+		variation Variazione
+			isDefault
+			relationship: 9ae5e308-8314-4e99-9af4-4640a078efe1
+			defaultHierarchy: LocalDateTable_3a70cbd3-54e5-4181-9f7c-649a04958113.'Gerarchia data'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+		annotation PBI_FormatHint = {"isDateTimeCustom":true}
+
+	column stato_riga
+		dataType: string
+		isHidden
+		lineageTag: a84b1f69-932c-4e89-a52c-2e5ca7d31ec5
+		summarizeBy: none
+		sourceColumn: stato_riga
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Codice Articolo'
+		dataType: string
+		lineageTag: 63ec0515-7d9c-416e-a41b-600d6be8fc60
+		summarizeBy: none
+		sourceColumn: Codice Articolo
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Descrizione Articolo'
+		dataType: string
+		lineageTag: 458cc310-e15b-4d58-a07f-c1566e649452
+		summarizeBy: none
+		sourceColumn: Descrizione Articolo
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Data Conferma'
+		dataType: dateTime
+		formatString: dd/mm/yyyy
+		lineageTag: a5095f15-ad46-49fc-83e4-51033d4bb680
+		summarizeBy: none
+		sourceColumn: Data Conferma
+
+		variation Variazione
+			isDefault
+			relationship: a81ac3d4-de57-44c8-a130-222819b362a3
+			defaultHierarchy: LocalDateTable_2f00e4b1-f375-4312-870b-53719b1b4ab3.'Gerarchia data'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+		annotation PBI_FormatHint = {"isDateTimeCustom":true}
+
+	column 'Numero Ordine' =
+			
+			VAR NumeroOriginale = 'Righe ordine fornitore (ofr)'[numero_ordine] -- Il numero originale
+			VAR LunghezzaPrefisso = 2 -- Il numero di cifre fisse del prefisso
+			VAR Prefisso = (LEFT(NumeroOriginale, LunghezzaPrefisso))-10 -- Estrae il prefisso
+			VAR Suffisso = MOD(NumeroOriginale,10000000) -- Estrae il suffisso variabile
+			RETURN Prefisso & "/" & Suffisso
+		lineageTag: 22a05472-7cc0-4557-8e9a-43589e9f51b6
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Numero Riga Ordine'
+		dataType: int64
+		formatString: 0
+		lineageTag: de23e905-18a3-490b-939c-f0fb6ff772ca
+		summarizeBy: none
+		sourceColumn: Numero Riga Ordine
+
+		annotation SummarizationSetBy = User
+
+	column 'Prezzo netto sconto' = 'Righe ordine fornitore (ofr)'[Prezzo Lordo]-'Righe ordine fornitore (ofr)'[Valore Sconto]
+		formatString: "€"\ #,0.00;-"€"\ #,0.00;"€"\ #,0.00
+		lineageTag: b0068db0-1710-46dc-a783-19be2c415dc4
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	column Scaduto = IF(AND('Righe ordine fornitore (ofr)'[stato_riga]="A",'Righe ordine fornitore (ofr)'[Data Consegna Richiesta] < TODAY()), "Scaduto", IF('Righe ordine fornitore (ofr)'[stato_riga] = "E", "Chiusa",IF('Righe ordine fornitore (ofr)'[stato_riga] = "S", "Sospesa", "In tempo")))
+		lineageTag: 79ef3b25-ccef-41b4-97fd-5807df6e0d07
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column Ordine+Riga =
+			
+			VAR NumeroOrdine = 'Righe ordine fornitore (ofr)'[numero_ordine]
+			VAR RigaOrdine = 'Righe ordine fornitore (ofr)'[Numero Riga Ordine]
+			RETURN
+			    IF(NumeroOrdine = 0, "Non presente",NumeroOrdine&"-"&RigaOrdine)
+		lineageTag: effd00e8-d7bc-4534-9e89-983d56902000
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column OrdineF12+Riga_2 = 'Righe ordine fornitore (ofr)'[Numero Ordine] & "-" & 'Righe ordine fornitore (ofr)'[Numero Riga Ordine]
+		lineageTag: 9a9ca3c1-4d21-4dde-b5bd-f7eb167c900b
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column Colore = RIGHT('Righe ordine fornitore (ofr)'[Codice Articolo],1)
+		lineageTag: 7a2103a2-5fd5-45ba-90f5-b4615fe22292
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Righe ordine fornitore (ofr)' = m
+		mode: import
+		source =
+				let
+				    Origine = Odbc.Query("dsn=F12 Informix DB", "SELECT * FROM ofr"),
+				    #"Rimosse altre colonne" = Table.SelectColumns(Origine,{"oq_prezzo", "oq_valore_sconto", "oq_qta_ordinata", "oq_qta_evasa", "oq_ser_ord", "oq_data_cons", "oq_data_cons_r", "oq_num_r_ord", "oq_stato_riga", "oq_sigla_art", "oq_descr_art", "oq_conf_data"}),
+				    #"Rinominate colonne" = Table.RenameColumns(#"Rimosse altre colonne",{{"oq_prezzo", "Prezzo Lordo"}, {"oq_valore_sconto", "Valore Sconto"}, {"oq_qta_ordinata", "Quantità Ordinata"}, {"oq_sigla_art", "Codice Articolo"}, {"oq_descr_art", "Descrizione Articolo"}, {"oq_stato_riga", "stato_riga"}, {"oq_data_cons_r", "Data Consegna Richiesta"}, {"oq_data_cons", "Data Consegna Prevista"}, {"oq_ser_ord", "numero_ordine"}, {"oq_conf_data", "Data Conferma"}, {"oq_qta_evasa", "Quantità Evasa"}, {"oq_num_r_ord", "Numero Riga Ordine"}})
+				in
+				    #"Rinominate colonne"
+
+	annotation PBI_NavigationStepName = Navigazione
+
+	annotation PBI_ResultType = Table
+

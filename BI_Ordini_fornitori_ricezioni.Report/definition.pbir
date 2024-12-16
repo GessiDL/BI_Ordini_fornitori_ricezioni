@@ -1,0 +1,9 @@
+{
+  "version": "4.0",
+  "datasetReference": {
+    "byPath": {
+      "path": "../BI_Ordini_fornitori_ricezioni.SemanticModel"
+    },
+    "byConnection": null
+  }
+}

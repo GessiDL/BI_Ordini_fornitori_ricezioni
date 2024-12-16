@@ -1,0 +1,97 @@
+table 'Testata ordini fornitore (ofi)'
+	lineageTag: 726e8db3-bc92-4528-b6c8-fea0e3ca69b3
+
+	column codice_fornitore
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 5297684c-95da-40e6-9f73-024db0470154
+		summarizeBy: none
+		sourceColumn: codice_fornitore
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column numero_ordine
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: eccdcff6-841b-450f-a041-a7816dd66825
+		summarizeBy: none
+		sourceColumn: numero_ordine
+
+		changedProperty = SortByColumn
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = User
+
+	column tipo_ordine
+		dataType: string
+		isHidden
+		lineageTag: 07958124-a53c-4d20-8f1f-499387e66438
+		summarizeBy: none
+		sourceColumn: tipo_ordine
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Numero Ordine' =
+			
+			VAR NumeroOriginale = 'Testata ordini fornitore (ofi)'[numero_ordine] -- Il numero originale
+			VAR LunghezzaPrefisso = 2 -- Il numero di cifre fisse del prefisso
+			VAR Prefisso = (LEFT(NumeroOriginale, LunghezzaPrefisso))-10 -- Estrae il prefisso
+			VAR Suffisso = MOD(NumeroOriginale,10000000) -- Estrae il suffisso variabile
+			RETURN Prefisso & "/" & Suffisso
+		lineageTag: 7a3f7691-1bd4-41b1-8b37-59f3bc29ed4d
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Codice fornitore' =
+			
+			VAR NumeroOrigine = 'Testata ordini fornitore (ofi)'[codice_fornitore]
+			VAR Mastro = QUOTIENT(NumeroOrigine,10000000)
+			VAR x = NumeroOrigine - (Mastro*10000000)
+			VAR Conto = QUOTIENT(x,10000)
+			VAR Sottoconto = x-(Conto*10000)
+			RETURN Mastro & "-" & Conto & "-" & Sottoconto
+		lineageTag: 9bb4ba7b-c428-4052-a106-50ff9a21799a
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Data Ordine'
+		dataType: dateTime
+		formatString: dd/mm/yyyy
+		lineageTag: f898207b-7c29-49f4-b1aa-544e7a88777b
+		summarizeBy: none
+		sourceColumn: Data Ordine
+
+		variation Variazione
+			isDefault
+			relationship: 70b71e69-494a-41d5-aafa-b419b6a0f50f
+			defaultHierarchy: LocalDateTable_b1022802-5034-42d7-8dca-93ccb02e3003.'Gerarchia data'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+		annotation PBI_FormatHint = {"isDateTimeCustom":true}
+
+	partition 'Testata ordini fornitore (ofi)' = m
+		mode: import
+		source =
+				let
+				    Origine = Odbc.Query("dsn=F12 Informix DB", "SELECT * FROM ofi"),
+				    #"Rimosse altre colonne" = Table.SelectColumns(Origine,{"oj_s_conto_for", "oj_data_ord", "oj_ann_num", "oj_conto_lav"}),
+				    #"Rinominate colonne" = Table.RenameColumns(#"Rimosse altre colonne",{{"oj_s_conto_for", "codice_fornitore"}, {"oj_conto_lav", "tipo_ordine"}, {"oj_ann_num", "numero_ordine"}, {"oj_data_ord", "Data Ordine"}})
+				in
+				    #"Rinominate colonne"
+
+	annotation PBI_NavigationStepName = Navigazione
+
+	annotation PBI_ResultType = Table
+

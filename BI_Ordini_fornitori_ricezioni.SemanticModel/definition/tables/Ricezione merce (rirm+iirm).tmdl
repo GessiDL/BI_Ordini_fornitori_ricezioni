@@ -1,0 +1,248 @@
+table 'Ricezione merce (rirm+iirm)'
+	lineageTag: 788514f4-e60a-49da-9380-8ac302c9051a
+
+	measure 'Quantità ricevuta totale' = SUM('Ricezione merce (rirm+iirm)'[Quantità Ricevuta]) + SUM('Ricezioni Galileo (MGMOF01F)'[Quantità ricevuta])
+		formatString: 0
+		lineageTag: 95f298d6-6f90-4677-b281-40b8800d87ef
+
+	measure 'Quantità mancante' = SUM('Righe ordine fornitore (ofr)'[Quantità Ordinata])-[Quantità ricevuta totale]
+		formatString: 0
+		lineageTag: a165c467-500f-48c8-9ad1-60c3e0b67c19
+
+	column 'Quantità Ricevuta'
+		dataType: double
+		formatString: 0
+		lineageTag: 68956798-28f4-4d76-ab55-4ee7726d62e7
+		summarizeBy: none
+		sourceColumn: Quantità Ricevuta
+
+		annotation SummarizationSetBy = User
+
+	column 'Quantità Accettata'
+		dataType: double
+		formatString: 0
+		lineageTag: 02cb076d-4bbc-48e7-ab8c-76d697baf5aa
+		summarizeBy: none
+		sourceColumn: Quantità Accettata
+
+		annotation SummarizationSetBy = User
+
+	column 'Quantità Ordinata'
+		dataType: double
+		formatString: 0
+		lineageTag: f3bc0c3d-64e6-4f73-8989-614983bd571d
+		summarizeBy: none
+		sourceColumn: Quantità Ordinata
+
+		annotation SummarizationSetBy = User
+
+	column 'numero_ricezione (righe)'
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 70f7593c-c8a3-423a-869d-71466287a4df
+		summarizeBy: sum
+		sourceColumn: numero_ricezione (righe)
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column numero_ordine
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 7480d493-644f-4737-bb2c-75b27d12d5e4
+		summarizeBy: sum
+		sourceColumn: numero_ordine
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Riga Ricezione Numero'
+		dataType: int64
+		formatString: 0
+		lineageTag: 679bb54d-b4e4-44d2-95c1-075b8486a42d
+		summarizeBy: none
+		sourceColumn: Riga Ricezione Numero
+
+		annotation SummarizationSetBy = User
+
+	column 'Riga Ordine Numero'
+		dataType: int64
+		formatString: 0
+		lineageTag: bf2a7865-e9b3-400c-ab98-b3bfa205064e
+		summarizeBy: none
+		sourceColumn: Riga Ordine Numero
+
+		annotation SummarizationSetBy = User
+
+	column 'Codice Articolo'
+		dataType: string
+		lineageTag: 9f4ccf06-4417-4520-a65b-f0808dd340de
+		summarizeBy: none
+		sourceColumn: Codice Articolo
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Descrizione Articolo'
+		dataType: string
+		lineageTag: ee559fb8-0934-43dd-a13d-0b0a4969fa25
+		summarizeBy: none
+		sourceColumn: Descrizione Articolo
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Unità Misura'
+		dataType: string
+		lineageTag: 461c3d15-0e07-49c1-bd3b-61c3921824a2
+		summarizeBy: none
+		sourceColumn: Unità Misura
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'codice_fornitore (testata)'
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: f046de9c-2627-4bac-82e9-805d6af1a74e
+		summarizeBy: none
+		sourceColumn: codice_fornitore (testata)
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = User
+
+	column 'numero_ricezione (testata)'
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: a141aa93-9504-4d00-8490-e233831f2135
+		summarizeBy: none
+		sourceColumn: numero_ricezione (testata)
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = User
+
+	column 'Data Documento Fornitore'
+		dataType: dateTime
+		formatString: dd/mm/yyyy
+		lineageTag: c6488bf1-be2f-4c91-8171-f55d03c6e114
+		summarizeBy: none
+		sourceColumn: Data Documento Fornitore
+
+		variation Variazione
+			isDefault
+			relationship: d17c2b4c-5a76-4a7b-b25e-0ac779234d3d
+			defaultHierarchy: LocalDateTable_afee61a2-fd7f-4be3-ac95-62aba5e052e2.'Gerarchia data'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+		annotation PBI_FormatHint = {"isDateTimeCustom":true}
+
+	column 'Data Registrazione'
+		dataType: dateTime
+		formatString: dd/mm/yyyy
+		lineageTag: 0d923ded-d3f0-47c2-89d0-31f2ad2055c0
+		summarizeBy: none
+		sourceColumn: Data Registrazione
+
+		variation Variazione
+			isDefault
+			relationship: f1b918c0-3f81-49db-9d2f-26d3a235c23a
+			defaultHierarchy: LocalDateTable_f6d792f5-0a20-43de-a5a9-bd01db5bb40e.'Gerarchia data'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+		annotation PBI_FormatHint = {"isDateTimeCustom":true}
+
+	column 'Estremi documento fornitore'
+		dataType: string
+		lineageTag: 24ec6de0-fa64-4b26-804c-5273e9de930a
+		summarizeBy: none
+		sourceColumn: Estremi documento fornitore
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Codice fornitore' =
+			
+			VAR NumeroOrigine = 'Ricezione merce (rirm+iirm)'[codice_fornitore (testata)]
+			VAR Mastro = QUOTIENT(NumeroOrigine,10000000)
+			VAR x = NumeroOrigine - (Mastro*10000000)
+			VAR Conto = QUOTIENT(x,10000)
+			VAR Sottoconto = x-(Conto*10000)
+			RETURN Mastro & "-" & Conto & "-" & Sottoconto
+		lineageTag: dc7a26f1-f024-4a4b-8a87-79b4867b5d74
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Numero Ordine' = ```
+			
+			VAR NumeroOriginale = 'Ricezione merce (rirm+iirm)'[numero_ordine] -- Il numero originale
+			VAR LunghezzaPrefisso = 2 -- Il numero di cifre fisse del prefisso
+			VAR Prefisso = (LEFT(NumeroOriginale, LunghezzaPrefisso))-10 -- Estrae il prefisso
+			VAR Suffisso = MOD(NumeroOriginale,10000000) -- Estrae il suffisso variabile
+			RETURN 
+			    IF(NumeroOriginale = 0, "Non presente F12", Prefisso & "/" & Suffisso)
+			```
+		lineageTag: 460963d4-a05f-4676-8a5e-325d38d1b320
+		summarizeBy: none
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Numero Ricezione F12' =
+			
+			VAR NumeroOriginale = 'Ricezione merce (rirm+iirm)'[numero_ricezione (testata)]-- Il numero originale
+			VAR LunghezzaPrefisso = 2 -- Il numero di cifre fisse del prefisso
+			VAR Prefisso = (LEFT(NumeroOriginale, LunghezzaPrefisso))-10 -- Estrae il prefisso
+			VAR Suffisso = MOD(NumeroOriginale,10000000) -- Estrae il suffisso variabile
+			RETURN Prefisso & "/" & Suffisso
+		lineageTag: 1c3310b0-5c03-49b4-908e-d93396e5ed9d
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column Ordine+Riga =
+			
+			VAR NumeroOrdine = 'Ricezione merce (rirm+iirm)'[numero_ordine]
+			VAR RigaOrdine = 'Ricezione merce (rirm+iirm)'[Riga Ordine Numero]
+			RETURN
+			    IF(NumeroOrdine = 0, "Non presente",NumeroOrdine&"-"&RigaOrdine)
+		isHidden
+		lineageTag: 5467ec2c-6051-45b2-81ff-6eca4c6f089b
+		summarizeBy: none
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column OrdineF12+Riga_2 = 'Ricezione merce (rirm+iirm)'[Numero Ordine] & "-" & 'Ricezione merce (rirm+iirm)'[Riga Ordine Numero]
+		lineageTag: 4833e4a0-313f-45b1-b03f-2836136bcbb0
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Ricezione merce (rirm+iirm)' = m
+		mode: import
+		source =
+				let
+				    Origine = Table.NestedJoin(#"Righe ricezione merce (rirm)", {"numero_ricezione"}, #"Testata ricezioni merce (iirm)", {"numero_ricezione"}, "Testata ricezioni merce (iirm)", JoinKind.RightOuter),
+				    #"Tabella Testata ricezioni merce (iirm) espansa" = Table.ExpandTableColumn(Origine, "Testata ricezioni merce (iirm)", {"ii_peroscil", "ii_cambrif", "ii_scn_compl", "ii_spe_franco", "codice_fornitore", "ii_movim_cont", "numero_ricezione", "Data Documento Fornitore", "Data Registrazione", "ii_num_var", "ii_mod_pag", "Estremi documento fornitore", "ii_fatt_ric", "ii_cau_carico", "ii_valuta", "ii_valrif", "ii_regime", "ii_modo_trasp", "ii_note", "ii_operatore", "ii_cond_sped", "ii_barcode_doc", "ii_num_colli", "ii_peso_netto", "ii_peso_lordo", "ii_volume", "ii_porto", "ii_vettore", "ii_fatt_forn_ele", "ii_doc_galileo"}, {"Testata ricezioni merce (iirm).ii_peroscil", "Testata ricezioni merce (iirm).ii_cambrif", "Testata ricezioni merce (iirm).ii_scn_compl", "Testata ricezioni merce (iirm).ii_spe_franco", "Testata ricezioni merce (iirm).codice_fornitore", "Testata ricezioni merce (iirm).ii_movim_cont", "Testata ricezioni merce (iirm).numero_ricezione", "Testata ricezioni merce (iirm).Data Documento Fornitore", "Testata ricezioni merce (iirm).Data Registrazione", "Testata ricezioni merce (iirm).ii_num_var", "Testata ricezioni merce (iirm).ii_mod_pag", "Testata ricezioni merce (iirm).Estremi documento fornitore", "Testata ricezioni merce (iirm).ii_fatt_ric", "Testata ricezioni merce (iirm).ii_cau_carico", "Testata ricezioni merce (iirm).ii_valuta", "Testata ricezioni merce (iirm).ii_valrif", "Testata ricezioni merce (iirm).ii_regime", "Testata ricezioni merce (iirm).ii_modo_trasp", "Testata ricezioni merce (iirm).ii_note", "Testata ricezioni merce (iirm).ii_operatore", "Testata ricezioni merce (iirm).ii_cond_sped", "Testata ricezioni merce (iirm).ii_barcode_doc", "Testata ricezioni merce (iirm).ii_num_colli", "Testata ricezioni merce (iirm).ii_peso_netto", "Testata ricezioni merce (iirm).ii_peso_lordo", "Testata ricezioni merce (iirm).ii_volume", "Testata ricezioni merce (iirm).ii_porto", "Testata ricezioni merce (iirm).ii_vettore", "Testata ricezioni merce (iirm).ii_fatt_forn_ele", "Testata ricezioni merce (iirm).ii_doc_galileo"}),
+				    #"Rimosse altre colonne" = Table.SelectColumns(#"Tabella Testata ricezioni merce (iirm) espansa",{"Quantità Ricevuta", "Quantità Accettata", "Quantità Ordinata", "numero_ricezione", "numero_ordine", "Riga Ricezione Numero", "Riga Ordine Numero", "Codice Articolo", "Descrizione Articolo", "Unità Misura", "Testata ricezioni merce (iirm).codice_fornitore", "Testata ricezioni merce (iirm).numero_ricezione", "Testata ricezioni merce (iirm).Data Documento Fornitore", "Testata ricezioni merce (iirm).Data Registrazione", "Testata ricezioni merce (iirm).Estremi documento fornitore"}),
+				    #"Rinominate colonne" = Table.RenameColumns(#"Rimosse altre colonne",{{"Testata ricezioni merce (iirm).Data Registrazione", "Data Registrazione"}, {"Testata ricezioni merce (iirm).Estremi documento fornitore", "Estremi documento fornitore"}, {"Testata ricezioni merce (iirm).Data Documento Fornitore", "Data Documento Fornitore"}, {"Testata ricezioni merce (iirm).numero_ricezione", "numero_ricezione (testata)"}, {"Testata ricezioni merce (iirm).codice_fornitore", "codice_fornitore (testata)"}, {"numero_ricezione", "numero_ricezione (righe)"}})
+				in
+				    #"Rinominate colonne"
+
+	annotation PBI_NavigationStepName = Navigazione
+
+	annotation PBI_ResultType = Table
+

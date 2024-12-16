@@ -1,0 +1,55 @@
+--------------------------------------------------Tabella S/Conto (sco)
+sc_cod_s_conto = codice_fornitore
+sc_descr = Descrizione fornitore 
+
+--------------------------------------------------Tabella Testata Ordini Fornitore (ofi)
+oj_ann_num = numero_ordine
+oj_conto_lav = tipo_ordine
+oj_s_conto_for = codice_fornitore
+oj_data_ord = Data Ordine
+
+--------------------------------------------------Tabella Righe Ordini Fornitore (ofr)
+oq_sigla_art = Codice Articolo
+oq_descr_art = Descrizione Articolo
+oq_stato_riga = stato_riga
+oq_qta_ordinata = Quantità Ordinata 
+oq_qta_evasa = Quantità Evasa
+oq_data_cons = Data Consegna Prevista
+oq_conf_data = Data Conferma
+oq_data_cons_r = Data Consegna Richiesta
+oq_prezzo = Prezzo Lordo
+oq_valore_sconto = Valore Sconto
+oq_ser_ord = numero_ordine
+
+--------------------------------------------------Testata ricezioni merce (iirm)
+ii_ann_num = numero_ricezione
+ii_s_conto_for = codice_fornitore
+ii_estremi_doc = Estremi documento fornitore
+ii_data_doc = Data Documento Fornitore
+ii_data_reg = Data Registrazione
+
+--------------------------------------------------Righe ricezioni merce (rirm)
+ir_num_riga_ric = Riga Ricezione Numero
+ir_sigla_art = Codice Articolo
+ir_descr_art = Descrizione Articolo
+ir_qta_ordinata = Quantità Ordinata
+ir_qta_ricev = Quantità Ricevuta
+ir_qta_accet = Quantità Accettata
+ir_unita_mis = Unità Misura
+ir_num_riga_ord = Riga Ordine Numero
+ir_ser_iirm = numero_ordine
+
+--------------------------------------------------Ricezioni Galileo (MGMOF01F)
+DT01MF1 = Data inserimento ricezione
+CDARMF1 = Codice Articolo
+CDUMMF1 = Unità misura
+QTENMF1 = Quantità ricevuta
+QTIFMF1 = Quantità iniziale
+QTBOMF1 = Quantità bolla
+VTMOMF1 = Valuta totale
+PRZUMF1 = Prezzo Unitario
+DSARMF1 = Descrizione Articolo
+TPORMF1 = tipo_documento
+NRORMF1 = numero_ordine
+NRGOMF1 = Riga Ordine Galileo
+CDCFMF1 = codice_fornitore

@@ -1,0 +1,58 @@
+model Model
+	culture: it-IT
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: it-IT
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+/// Errori nelle query caricate il 16/12/2024 11:22:16.
+queryGroup 'Errori di query - 16/12/2024 11:22:16'
+
+	annotation PBI_QueryGroupOrder = 0
+
+/// Errori nelle query caricate il 16/12/2024 11:40:30.
+queryGroup 'Errori di query - 16/12/2024 11:40:30'
+
+	annotation PBI_QueryGroupOrder = 1
+
+/// Errori nelle query caricate il 16/12/2024 11:49:03.
+queryGroup 'Errori di query - 16/12/2024 11:49:03'
+
+	annotation PBI_QueryGroupOrder = 2
+
+annotation PBI_QueryOrder = ["Testata ordini fornitore (ofi)","S/Conto (sco) - Ordini","Righe ordine fornitore (ofr)","Stato riga","Tipologia ordine","Righe ricezione merce (rirm)","Testata ricezioni merce (iirm)","S/Conto (sco) - Ricezioni","Ricezione merce (rirm+iirm)","S/Conto (sco) - Ricezioni Galileo","Indice_versioni","Ricezioni Galileo (MGMOF01F)","Errori in Ricezioni Galileo (MGMOF01F)","Errori in Ricezioni Galileo (MGMOF01F) (2)"]
+
+annotation __PBI_TimeIntelligenceEnabled = 1
+
+annotation PBIDesktopVersion = 2.138.1452.0 (24.11)
+
+annotation PBI_ProTooling = ["DevMode"]
+
+ref table 'Testata ordini fornitore (ofi)'
+ref table 'S/Conto (sco) - Ordini'
+ref table 'Righe ordine fornitore (ofr)'
+ref table DateTableTemplate_6779cdad-bff5-4c09-807a-8f9d14d3342e
+ref table LocalDateTable_132b607c-27f8-4994-ba57-54f8345e3c0b
+ref table LocalDateTable_3a70cbd3-54e5-4181-9f7c-649a04958113
+ref table LocalDateTable_2f00e4b1-f375-4312-870b-53719b1b4ab3
+ref table 'Stato riga'
+ref table 'Tipologia ordine'
+ref table 'Righe ricezione merce (rirm)'
+ref table 'Testata ricezioni merce (iirm)'
+ref table LocalDateTable_b2ed8db8-3a1c-4c0b-a208-73d35304853d
+ref table 'S/Conto (sco) - Ricezioni'
+ref table 'Ricezione merce (rirm+iirm)'
+ref table LocalDateTable_afee61a2-fd7f-4be3-ac95-62aba5e052e2
+ref table LocalDateTable_f6d792f5-0a20-43de-a5a9-bd01db5bb40e
+ref table LocalDateTable_a35130cf-76eb-4aee-8b2a-25ae1d4c7fdf
+ref table LocalDateTable_b1022802-5034-42d7-8dca-93ccb02e3003
+ref table 'S/Conto (sco) - Ricezioni Galileo'
+ref table Indice_versioni
+ref table LocalDateTable_fb27bf6c-4a41-4c2d-9301-0e542f2b9078
+ref table LocalDateTable_da212e85-f7ac-4d0c-bc05-8702c03a0f64
+ref table 'Ricezioni Galileo (MGMOF01F)'
+ref table LocalDateTable_d53d1e24-8f70-45a0-aa4f-ef13e8c9264c
+
+ref cultureInfo it-IT
+

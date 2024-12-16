@@ -1,0 +1,33 @@
+table 'Tipologia ordine'
+	lineageTag: 20381610-ae88-444e-983a-97b9eda8933f
+
+	column tipo_ordine
+		dataType: string
+		isHidden
+		lineageTag: d38d0cdd-c715-484c-9d87-992362b39a37
+		summarizeBy: none
+		sourceColumn: tipo_ordine
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Tipologia Ordine'
+		dataType: string
+		lineageTag: 46130cb5-f7aa-4664-b7ae-31ec9607e983
+		summarizeBy: none
+		sourceColumn: Tipologia Ordine
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Tipologia ordine' = m
+		mode: import
+		source =
+				let
+				    Origine = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i45W8lPSUXLOz81NLUrOTMxJVYrViVYKBor5JJblFyVWZebnpSqkFpekFuUlKsXGAgA=", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [tipo_ordine = _t, #"Tipologia Ordine" = _t]),
+				    #"Modificato tipo" = Table.TransformColumnTypes(Origine,{{"tipo_ordine", type text}, {"Tipologia Ordine", type text}})
+				in
+				    #"Modificato tipo"
+
+	annotation PBI_ResultType = Table
+

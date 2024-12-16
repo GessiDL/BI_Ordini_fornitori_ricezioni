@@ -1,0 +1,179 @@
+{
+  "version": "1.1.0",
+  "diagrams": [
+    {
+      "ordinal": 0,
+      "scrollPosition": {
+        "x": 4.2279994417166886,
+        "y": 443.93994138025226
+      },
+      "nodes": [
+        {
+          "location": {
+            "x": 663.1418824345302,
+            "y": 539.82584241085021
+          },
+          "nodeIndex": "Righe ordine fornitore (ofr)",
+          "nodeLineageTag": "4c735d43-317a-4d83-a101-5091cc0fd097",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 11
+        },
+        {
+          "location": {
+            "x": 307.23462609807933,
+            "y": 612.76949339005671
+          },
+          "nodeIndex": "Stato riga",
+          "nodeLineageTag": "23318f04-8559-4729-be9c-07cdcb75e051",
+          "size": {
+            "height": 145,
+            "width": 234
+          },
+          "zIndex": 8
+        },
+        {
+          "location": {
+            "x": 276.10644613192824,
+            "y": 233.43685332773134
+          },
+          "nodeIndex": "Tipologia ordine",
+          "nodeLineageTag": "20381610-ae88-444e-983a-97b9eda8933f",
+          "size": {
+            "height": 145,
+            "width": 234
+          },
+          "zIndex": 6
+        },
+        {
+          "location": {
+            "x": 1389.5931479704618,
+            "y": 0
+          },
+          "nodeIndex": "Righe ricezione merce (rirm)",
+          "nodeLineageTag": "cc16fb4f-509c-4554-aece-d05cbf132f2d",
+          "size": {
+            "height": 72,
+            "width": 234
+          },
+          "zIndex": 9,
+          "expandedHeight": 358
+        },
+        {
+          "location": {
+            "x": 1136.2088716746857,
+            "y": 0
+          },
+          "nodeIndex": "Testata ricezioni merce (iirm)",
+          "nodeLineageTag": "df727caa-9b3c-4243-a145-d57a7d27b0ec",
+          "size": {
+            "height": 128,
+            "width": 234
+          },
+          "zIndex": 7,
+          "expandedHeight": 176
+        },
+        {
+          "location": {
+            "x": 673.85668107144932,
+            "y": 207.08992699332737
+          },
+          "nodeIndex": "Testata ordini fornitore (ofi)",
+          "nodeLineageTag": "726e8db3-bc92-4528-b6c8-fea0e3ca69b3",
+          "size": {
+            "height": 234,
+            "width": 234
+          },
+          "zIndex": 5
+        },
+        {
+          "location": {
+            "x": 1153.6730222958734,
+            "y": 161.82361897092667
+          },
+          "nodeIndex": "Ricezione merce (rirm+iirm)",
+          "nodeLineageTag": "788514f4-e60a-49da-9380-8ac302c9051a",
+          "size": {
+            "height": 529.83971964882346,
+            "width": 234
+          },
+          "zIndex": 4
+        },
+        {
+          "location": {
+            "x": 674.51680574385375,
+            "y": 0
+          },
+          "nodeIndex": "S/Conto (sco) - Ordini",
+          "nodeLineageTag": "8194df3b-e631-4fe4-be05-3e5887aa2985",
+          "size": {
+            "height": 145,
+            "width": 234
+          },
+          "zIndex": 1
+        },
+        {
+          "location": {
+            "x": 1514.9884253732234,
+            "y": 473.97208952836587
+          },
+          "nodeIndex": "S/Conto (sco) - Ricezioni",
+          "nodeLineageTag": "8e33063d-8b7e-419f-8a71-bce24bd59122",
+          "size": {
+            "height": 177.33145202218651,
+            "width": 234
+          },
+          "zIndex": 2
+        },
+        {
+          "location": {
+            "x": 1526.0102995887346,
+            "y": 743.99398473146618
+          },
+          "nodeIndex": "S/Conto (sco) - Ricezioni Galileo",
+          "nodeLineageTag": "f7472cb5-edc1-4e70-9659-cd0df5161a83",
+          "size": {
+            "height": 247.53357647464566,
+            "width": 234
+          },
+          "zIndex": 3
+        },
+        {
+          "location": {
+            "x": 0,
+            "y": 0
+          },
+          "nodeIndex": "Indice_versioni",
+          "nodeLineageTag": "84f44905-d42e-4291-9aa8-fa0295977b7d",
+          "size": {
+            "height": 176,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1149.0330535336921,
+            "y": 1054.1489866387517
+          },
+          "nodeIndex": "Ricezioni Galileo (MGMOF01F)",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        }
+      ],
+      "name": "Tutte le tabelle",
+      "zoomValue": 70.955543900968792,
+      "pinKeyFieldsToTop": false,
+      "showExtraHeaderInfo": false,
+      "hideKeyFieldsWhenCollapsed": false,
+      "tablesLocked": false
+    }
+  ],
+  "selectedDiagram": "Tutte le tabelle",
+  "defaultDiagram": "Tutte le tabelle"
+}

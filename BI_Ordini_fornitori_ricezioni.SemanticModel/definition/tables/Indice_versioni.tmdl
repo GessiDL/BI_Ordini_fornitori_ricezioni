@@ -1,0 +1,122 @@
+table Indice_versioni
+	isHidden
+	lineageTag: 84f44905-d42e-4291-9aa8-fa0295977b7d
+
+	measure UltimoValore =
+			
+			VAR UltimaDataModifiche = MAX(Indice_versioni[Data inizio modifiche])
+			VAR UltimaDataRilascio = MAX(Indice_versioni[Data rilascio])
+			RETURN
+			IF(UltimaDataRilascio < UltimaDataModifiche,
+			    CALCULATE(
+			        MAX(Indice_versioni[n° versione]),
+			        Indice_versioni[Data rilascio] = UltimaDataRilascio
+			    ),
+			    CALCULATE(
+			        MAX(Indice_versioni[n° versione]),
+			        Indice_versioni[Data inizio modifiche] = UltimaDataModifiche
+			    )
+			)
+		formatString: 0
+		lineageTag: 538ed6b7-be4d-42ad-b2f2-c16ddafa694b
+
+	measure 'Versione corrente' = ```
+			
+			VAR UltimaModifica = MAX(Indice_versioni[Data inizio modifiche])
+			VAR UltimoRilascio = MAX(Indice_versioni[Data rilascio])
+			VAR VersioneModifica = MAXX(
+			    FILTER(Indice_versioni, Indice_versioni[Data inizio modifiche] = UltimaModifica), 
+			    Indice_versioni[n° versione]
+			)
+			VAR VersioneRilascio = MAXX(
+			    FILTER(Indice_versioni, Indice_versioni[Data rilascio] = UltimoRilascio), 
+			    Indice_versioni[n° versione]
+			)
+			RETURN
+			IF(
+			    (UltimaModifica >= UltimoRilascio || ISBLANK(UltimoRilascio)),
+			    VersioneModifica & ".dev",
+			    VersioneRilascio
+			)
+			```
+		lineageTag: 1c1563d9-32dc-4888-9a9e-03a68ff52d10
+
+	measure UltimaModifica = MAX(Indice_versioni[Data inizio modifiche])
+		lineageTag: c48bebc9-26dd-429c-8550-a6693b7b3795
+
+	column 'n° versione'
+		dataType: string
+		isHidden
+		lineageTag: c56a5c62-f16b-4686-874c-ed21150f0bd4
+		summarizeBy: none
+		sourceColumn: n° versione
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Modifiche
+		dataType: string
+		isHidden
+		lineageTag: 63703901-e0e4-494d-a9d1-fe5b3f8a0eab
+		summarizeBy: none
+		sourceColumn: Modifiche
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Data inizio modifiche'
+		dataType: dateTime
+		isHidden
+		formatString: Long Date
+		lineageTag: 51c24d9a-c845-4813-881d-691e06347aef
+		summarizeBy: none
+		sourceColumn: Data inizio modifiche
+
+		variation Variazione
+			isDefault
+			relationship: 403cb123-6e31-4fb8-a01b-4d8e165df625
+			defaultHierarchy: LocalDateTable_fb27bf6c-4a41-4c2d-9301-0e542f2b9078.'Gerarchia data'
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column 'Data rilascio'
+		dataType: dateTime
+		isHidden
+		formatString: Long Date
+		lineageTag: 9954ca21-243e-4f05-b25a-c6f479a132d0
+		summarizeBy: none
+		sourceColumn: Data rilascio
+
+		variation Variazione
+			isDefault
+			relationship: 15540cd0-b4b8-43b3-b741-93d1704da2b4
+			defaultHierarchy: LocalDateTable_da212e85-f7ac-4d0c-bc05-8702c03a0f64.'Gerarchia data'
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	partition Indice_versioni = m
+		mode: import
+		source =
+				let
+				    Origine = Excel.Workbook(File.Contents("C:\Users\gessica.dilenardo\Documents\Power BI\Elaborati\BI_Ordini_fornitori_ricezioni\Versionamento\Indice versioni.xlsx"), null, true),
+				    Indice_versioni_Table = Origine{[Item="Indice_versioni",Kind="Table"]}[Data],
+				    #"Modificato tipo" = Table.TransformColumnTypes(Indice_versioni_Table,{{"n° versione", type text}, {"Data inizio modifiche", type date}, {"Data rilascio", type date}})
+				in
+				    #"Modificato tipo"
+
+	changedProperty = IsHidden
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigazione
+

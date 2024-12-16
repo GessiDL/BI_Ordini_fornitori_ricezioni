@@ -1,0 +1,417 @@
+table 'Testata ricezioni merce (iirm)'
+	isHidden
+	lineageTag: df727caa-9b3c-4243-a145-d57a7d27b0ec
+
+	column codice_fornitore
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 67fb5e77-0453-40a4-b744-24f24b73c14a
+		summarizeBy: sum
+		sourceColumn: codice_fornitore
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column numero_ricezione
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: e9cf9edd-7dd0-4d65-9725-8b0ee1d82c99
+		summarizeBy: sum
+		sourceColumn: numero_ricezione
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Data Documento Fornitore'
+		dataType: dateTime
+		isHidden
+		formatString: dd/mm/yyyy
+		lineageTag: ad6b3aae-7b6b-4c31-9f1c-39d841934877
+		summarizeBy: none
+		sourceColumn: Data Documento Fornitore
+
+		variation Variazione
+			isDefault
+			relationship: e771e4c6-58ff-4ddc-9f42-152e9a633519
+			defaultHierarchy: LocalDateTable_b2ed8db8-3a1c-4c0b-a208-73d35304853d.'Gerarchia data'
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+		annotation PBI_FormatHint = {"isDateTimeCustom":true}
+
+	column 'Estremi documento fornitore'
+		dataType: string
+		isHidden
+		lineageTag: 40425401-cf06-4606-91c0-f9948922fac2
+		summarizeBy: none
+		sourceColumn: Estremi documento fornitore
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Codice fornitore' =
+			
+			VAR NumeroOrigine = 'Testata ricezioni merce (iirm)'[codice_fornitore]
+			VAR Mastro = QUOTIENT(NumeroOrigine,10000000)
+			VAR x = NumeroOrigine - (Mastro*10000000)
+			VAR Conto = QUOTIENT(x,10000)
+			VAR Sottoconto = x-(Conto*10000)
+			RETURN Mastro & "-" & Conto & "-" & Sottoconto
+		isHidden
+		lineageTag: e5cb4aef-f4a1-462f-bb94-84286ba9c0c2
+		summarizeBy: none
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Numero Ricezione' =
+			
+			VAR NumeroOriginale = 'Testata ricezioni merce (iirm)'[numero_ricezione] -- Il numero originale
+			VAR LunghezzaPrefisso = 2 -- Il numero di cifre fisse del prefisso
+			VAR Prefisso = (LEFT(NumeroOriginale, LunghezzaPrefisso))-10 -- Estrae il prefisso
+			VAR Suffisso = MOD(NumeroOriginale,10000000) -- Estrae il suffisso variabile
+			RETURN Prefisso & "/" & Suffisso
+		isHidden
+		lineageTag: 9933f0ff-88c4-48b7-b247-1283a1936877
+		summarizeBy: none
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column ii_peroscil
+		dataType: double
+		isHidden
+		lineageTag: 923880ef-147d-4503-8153-42ad106c7752
+		summarizeBy: sum
+		sourceColumn: ii_peroscil
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column ii_cambrif
+		dataType: double
+		isHidden
+		lineageTag: da04b422-290a-40b8-b3af-63636e80407f
+		summarizeBy: sum
+		sourceColumn: ii_cambrif
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column ii_scn_compl
+		dataType: double
+		isHidden
+		lineageTag: f5b372c9-5d7b-446c-a247-4cf4c5186e4b
+		summarizeBy: sum
+		sourceColumn: ii_scn_compl
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column ii_spe_franco
+		dataType: double
+		isHidden
+		lineageTag: 95bb21ff-64a2-4037-b3ef-97074caba534
+		summarizeBy: sum
+		sourceColumn: ii_spe_franco
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column ii_movim_cont
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: c663a7ec-8c7a-42cf-8c42-86ac560fa3ef
+		summarizeBy: sum
+		sourceColumn: ii_movim_cont
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Data Registrazione'
+		dataType: dateTime
+		isHidden
+		formatString: Long Date
+		lineageTag: 4ba1ae34-686e-4b13-b647-b1646c4c84cd
+		summarizeBy: none
+		sourceColumn: Data Registrazione
+
+		variation Variazione
+			isDefault
+			relationship: 21609f7d-fbd7-43e2-8afa-c7712d58d5b0
+			defaultHierarchy: LocalDateTable_a35130cf-76eb-4aee-8b2a-25ae1d4c7fdf.'Gerarchia data'
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column ii_num_var
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 5393cc10-b3d1-410a-99d5-3d0c44bc7f50
+		summarizeBy: sum
+		sourceColumn: ii_num_var
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column ii_mod_pag
+		dataType: string
+		isHidden
+		lineageTag: 913e3050-44ed-4bf4-b922-31d76f733b1e
+		summarizeBy: none
+		sourceColumn: ii_mod_pag
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column ii_fatt_ric
+		dataType: string
+		isHidden
+		lineageTag: e75d476d-2653-4416-b6a9-1f31ac769ce2
+		summarizeBy: none
+		sourceColumn: ii_fatt_ric
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column ii_cau_carico
+		dataType: string
+		isHidden
+		lineageTag: 2537eba3-4cc3-4271-bec1-dfe085a6f5ee
+		summarizeBy: none
+		sourceColumn: ii_cau_carico
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column ii_valuta
+		dataType: string
+		isHidden
+		lineageTag: d8e714b3-817b-4655-9041-a965e497ebab
+		summarizeBy: none
+		sourceColumn: ii_valuta
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column ii_valrif
+		dataType: string
+		isHidden
+		lineageTag: ebd36b71-fb73-49ad-be40-4c419e6ad242
+		summarizeBy: none
+		sourceColumn: ii_valrif
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column ii_regime
+		dataType: string
+		isHidden
+		lineageTag: 49d8f81e-6a30-464f-bd73-db6ac98295ac
+		summarizeBy: none
+		sourceColumn: ii_regime
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column ii_modo_trasp
+		dataType: string
+		isHidden
+		lineageTag: 97e86a88-b498-480e-b361-46706b3b2934
+		summarizeBy: none
+		sourceColumn: ii_modo_trasp
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column ii_note
+		dataType: string
+		isHidden
+		lineageTag: 991d8367-e40f-47ac-9c77-aedd21af2dfc
+		summarizeBy: none
+		sourceColumn: ii_note
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column ii_operatore
+		dataType: string
+		isHidden
+		lineageTag: 3f4454be-26f1-45d1-baf0-62fed80499a8
+		summarizeBy: none
+		sourceColumn: ii_operatore
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column ii_cond_sped
+		dataType: string
+		isHidden
+		lineageTag: 8fac1255-5d2f-408f-8b6b-07a0919fcc6c
+		summarizeBy: none
+		sourceColumn: ii_cond_sped
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column ii_barcode_doc
+		dataType: string
+		isHidden
+		lineageTag: 1132aee8-d908-483b-8f7a-3cb303bf2d22
+		summarizeBy: none
+		sourceColumn: ii_barcode_doc
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column ii_num_colli
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 46bb85e0-3677-4752-abbb-babcdbf1b8e3
+		summarizeBy: sum
+		sourceColumn: ii_num_colli
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column ii_peso_netto
+		dataType: double
+		isHidden
+		lineageTag: d6d372f8-6522-4950-8abb-826a4a7a20b7
+		summarizeBy: sum
+		sourceColumn: ii_peso_netto
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column ii_peso_lordo
+		dataType: double
+		isHidden
+		lineageTag: 48c913b6-e54d-4bb6-8e44-25ccd332c633
+		summarizeBy: sum
+		sourceColumn: ii_peso_lordo
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column ii_volume
+		dataType: double
+		isHidden
+		lineageTag: 14b603f8-8ec7-4b51-bc4e-0c0a9542ac2e
+		summarizeBy: sum
+		sourceColumn: ii_volume
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column ii_porto
+		dataType: string
+		isHidden
+		lineageTag: da596f9b-fdba-42ae-b3da-f09e5d628f51
+		summarizeBy: none
+		sourceColumn: ii_porto
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column ii_vettore
+		dataType: string
+		isHidden
+		lineageTag: d3e94de1-7af5-4361-abc4-cdbbb901e6b6
+		summarizeBy: none
+		sourceColumn: ii_vettore
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column ii_fatt_forn_ele
+		dataType: string
+		isHidden
+		lineageTag: 2ac58a2b-a82e-42de-a990-161b1b3937df
+		summarizeBy: none
+		sourceColumn: ii_fatt_forn_ele
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column ii_doc_galileo
+		dataType: string
+		isHidden
+		lineageTag: 32b46908-2231-4e7a-b0f2-2ee611e6c2f3
+		summarizeBy: none
+		sourceColumn: ii_doc_galileo
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Testata ricezioni merce (iirm)' = m
+		mode: import
+		source =
+				let
+				    Origine = Odbc.Query("dsn=F12 Informix DB", "SELECT * FROM iirm"),
+				    #"Rinominate colonne" = Table.RenameColumns(Origine,{{"ii_s_conto_for", "codice_fornitore"}, {"ii_ann_num", "numero_ricezione"}, {"ii_data_doc", "Data Documento Fornitore"}, {"ii_estremi_doc", "Estremi documento fornitore"}, {"ii_data_reg", "Data Registrazione"}})
+				in
+				    #"Rinominate colonne"
+
+	changedProperty = IsHidden
+
+	annotation PBI_NavigationStepName = Navigazione
+
+	annotation PBI_ResultType = Table
+

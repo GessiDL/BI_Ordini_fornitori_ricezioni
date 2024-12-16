@@ -1,0 +1,275 @@
+table 'Ricezioni Galileo (MGMOF01F)'
+	lineageTag: e1047905-244d-4cbd-b858-641d1b6012d8
+
+	column 'Data inserimento ricezione'
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: c8414bd9-18ca-440d-81d3-494c712464a8
+		summarizeBy: sum
+		sourceColumn: Data inserimento ricezione
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Codice Articolo'
+		dataType: string
+		lineageTag: 7acf79f3-b426-4600-a17e-5506c4a85423
+		summarizeBy: none
+		sourceColumn: Codice Articolo
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Unità misura'
+		dataType: string
+		lineageTag: 584f66ab-00dc-4e84-a02f-e86981a2d4bc
+		summarizeBy: none
+		sourceColumn: Unità misura
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Quantità ricevuta'
+		dataType: int64
+		formatString: 0
+		lineageTag: fe8fe05e-1db6-4ba1-a840-d370ac7f3854
+		summarizeBy: none
+		sourceColumn: Quantità ricevuta
+
+		annotation SummarizationSetBy = User
+
+	column 'Quantità iniziale'
+		dataType: int64
+		formatString: 0
+		lineageTag: 4e7e96f1-868c-4b23-a222-9168d2ce6628
+		summarizeBy: none
+		sourceColumn: Quantità iniziale
+
+		annotation SummarizationSetBy = User
+
+	column 'Quantità bolla'
+		dataType: int64
+		formatString: 0
+		lineageTag: ecfbb2a8-378f-4a85-a5c9-92369f6d54a0
+		summarizeBy: sum
+		sourceColumn: Quantità bolla
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Valuta totale'
+		dataType: int64
+		formatString: 0
+		lineageTag: 31b5aef9-ca42-4f36-bba2-95f4c915cc5f
+		summarizeBy: sum
+		sourceColumn: Valuta totale
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Prezzo Unitario'
+		dataType: int64
+		formatString: 0
+		lineageTag: 42df1226-5a60-49f6-be45-1ac22de5d729
+		summarizeBy: sum
+		sourceColumn: Prezzo Unitario
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Descrizione Articolo'
+		dataType: string
+		lineageTag: aac5fc92-ede3-41ff-b266-0e364d4ff221
+		summarizeBy: none
+		sourceColumn: Descrizione Articolo
+
+		annotation SummarizationSetBy = Automatic
+
+	column tipo_documento_Galileo
+		dataType: string
+		isHidden
+		lineageTag: 2d690ba3-5a44-4cf3-9456-88098b5a0ec3
+		summarizeBy: none
+		sourceColumn: tipo_documento_Galileo
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column numero_ordine_Galileo
+		dataType: int64
+		formatString: 0
+		lineageTag: a22f167c-553d-4267-9873-23fe034bfd74
+		summarizeBy: sum
+		sourceColumn: numero_ordine_Galileo
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Riga Ordine Galileo'
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: c489a9bf-df98-4852-85f3-b073f3d10be7
+		summarizeBy: sum
+		sourceColumn: Riga Ordine Galileo
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column codice_fornitore_Galileo
+		dataType: int64
+		formatString: 0
+		lineageTag: dce5f3fc-863b-4367-a9b5-72ceb43df880
+		summarizeBy: sum
+		sourceColumn: codice_fornitore_Galileo
+
+		annotation SummarizationSetBy = Automatic
+
+	column codice_fornitore_F12
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 97227ea1-d556-4235-9585-a9b3b760eeb9
+		summarizeBy: sum
+		sourceColumn: codice_fornitore_F12
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Numero ordine F12' =
+			
+			VAR NumeroOriginale = 'Ricezioni Galileo (MGMOF01F)'[numero_ordine_Galileo]
+			VAR AnnoOrdine = LEFT(NumeroOriginale,2)
+			VAR TipoOrdine = MID(NumeroOriginale,3,1)
+			VAR NumeroOrdine = VALUE(RIGHT(NumeroOriginale,4))
+			RETURN AnnoOrdine & "/" & IF(TipoOrdine = "9", 5, "") & NumeroOrdine
+		lineageTag: 86384de5-b2bb-4b50-8c47-a5b7b6ce38a3
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Codice fornitore F12' =
+			
+			VAR NumeroOrigine = 'Ricezioni Galileo (MGMOF01F)'[codice_fornitore_F12]
+			VAR Mastro = QUOTIENT(NumeroOrigine,10000000)
+			VAR x = NumeroOrigine - (Mastro*10000000)
+			VAR Conto = QUOTIENT(x,10000)
+			VAR Sottoconto = x-(Conto*10000)
+			RETURN Mastro & "-" & Conto & "-" & Sottoconto
+		lineageTag: 3f4401ca-5227-4dc2-9fb0-2e6afa4d4642
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Riga ordine F12' =
+			RANKX(
+			    FILTER(
+			        'Ricezioni Galileo (MGMOF01F)',
+			        'Ricezioni Galileo (MGMOF01F)'[numero_ordine_Galileo] = EARLIER('Ricezioni Galileo (MGMOF01F)'[numero_ordine_Galileo])
+			    ),
+			    'Ricezioni Galileo (MGMOF01F)'[Riga Ordine Galileo],
+			    ,
+			    ASC,
+			    Dense
+			)
+		formatString: 0
+		lineageTag: ad98e100-1c7f-40a8-b733-b0f50b9ae10d
+		summarizeBy: none
+
+		annotation SummarizationSetBy = User
+
+	column 'Data Ricezione' =
+			
+			DATE(
+			    LEFT('Ricezioni Galileo (MGMOF01F)'[Data inserimento ricezione], 4),
+			    MID('Ricezioni Galileo (MGMOF01F)'[Data inserimento ricezione], 5, 2),
+			    RIGHT('Ricezioni Galileo (MGMOF01F)'[Data inserimento ricezione], 2)
+			)
+		formatString: Short Date
+		lineageTag: b7e8497a-3ce0-49b3-8d19-3bf1c252f912
+		summarizeBy: none
+
+		variation Variazione
+			isDefault
+			relationship: 7d819695-e28c-48e6-9e48-c0220f4f4417
+			defaultHierarchy: LocalDateTable_d53d1e24-8f70-45a0-aa4f-ef13e8c9264c.'Gerarchia data'
+
+		annotation SummarizationSetBy = Automatic
+
+	column OrdineF12+Riga_2 = 'Ricezioni Galileo (MGMOF01F)'[Numero ordine F12] & "-" & 'Ricezioni Galileo (MGMOF01F)'[Riga ordine F12]
+		lineageTag: d88de702-05a8-4cb6-a025-076b905e91ea
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Ricezione numero' = 'Ricezioni Galileo (MGMOF01F)'[Tipo Ricezione Galileo] & 'Ricezioni Galileo (MGMOF01F)'[Numero Ricezione Galileo]
+		lineageTag: 6b433fca-8e14-455a-9627-d109cfa4a379
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Tipo Ricezione Galileo'
+		dataType: string
+		isHidden
+		lineageTag: 00286671-529b-49bc-9d45-916f805bb556
+		summarizeBy: none
+		sourceColumn: Tipo Ricezione Galileo
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Numero Ricezione Galileo'
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 4a125d58-c8c9-4092-a889-63dffc9f0e99
+		summarizeBy: sum
+		sourceColumn: Numero Ricezione Galileo
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Riga Ricezione Galileo'
+		dataType: int64
+		formatString: 0
+		lineageTag: 9dad485a-6da3-407e-94d0-86b9d8f3dfe3
+		summarizeBy: sum
+		sourceColumn: Riga Ricezione Galileo
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Ordine Galileo numero' = 'Ricezioni Galileo (MGMOF01F)'[tipo_documento_Galileo] & 'Ricezioni Galileo (MGMOF01F)'[numero_ordine_Galileo]
+		lineageTag: 395e89fd-11da-4737-9225-447d3330571f
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Descrizione fornitore'
+		dataType: string
+		lineageTag: 7678dc13-c5e4-44c6-bf4a-6e06c0a59c6e
+		summarizeBy: none
+		sourceColumn: Descrizione fornitore
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Ricezioni Galileo (MGMOF01F)' = m
+		mode: import
+		source =
+				let
+				    Origine = Excel.Workbook(File.Contents("C:\Users\gessica.dilenardo\Documents\Power BI\Elaborati\BI_Ordini_fornitori_ricezioni\Versionamento\Movimenti fornitori Galileo (MGMOF01F) 2020_2024.xlsx"), null, true),
+				    MGMOF01F_202412160849_Sheet = Origine{[Item="MGMOF01F_202412160849",Kind="Sheet"]}[Data],
+				    #"Intestazioni alzate di livello" = Table.PromoteHeaders(MGMOF01F_202412160849_Sheet, [PromoteAllScalars=true]),
+				    #"Modificato tipo" = Table.TransformColumnTypes(#"Intestazioni alzate di livello",{{"TIREMF1", type text}, {"PROFMF1", type text}, {"DT01MF1", Int64.Type}, {"DTMNMF1", Int64.Type}, {"CDDTMF1", Int64.Type}, {"TDOCMF1", type text}, {"NRDFMF1", Int64.Type}, {"NRRGMF1", Int64.Type}, {"NSRGMF1", Int64.Type}, {"TIMOMF1", Int64.Type}, {"CDARMF1", type any}, {"CTGMMF1", type text}, {"SEQUMF1", type text}, {"CDCIMF1", type text}, {"CDFAMF1", Int64.Type}, {"CDMAMF1", type text}, {"CDUMMF1", type text}, {"QTENMF1", Int64.Type}, {"COEFMF1", Int64.Type}, {"QTE2MF1", Int64.Type}, {"SAACMF1", type text}, {"FLCQMF1", type text}, {"CDDCMF1", type text}, {"QTIFMF1", Int64.Type}, {"QIF2MF1", Int64.Type}, {"QTBOMF1", Int64.Type}, {"QTB2MF1", Int64.Type}, {"TPQTMF1", type text}, {"QTPZMF1", Int64.Type}, {"QPZ2MF1", Int64.Type}, {"QTFTMF1", Int64.Type}, {"QTF2MF1", Int64.Type}, {"ALIVMF1", Int64.Type}, {"COACMF1", Int64.Type}, {"CDVVMF1", type text}, {"CMBVMF1", Int64.Type}, {"VTMOMF1", Int64.Type}, {"VTMOMF11", Int64.Type}, {"VTMOMF12", Int64.Type}, {"VTFAMF1", Int64.Type}, {"VTFAMF11", Int64.Type}, {"VTFAMF12", Int64.Type}, {"FLSAMF1", type text}, {"FLSPMF1", type text}, {"PRZUMF1", Int64.Type}, {"PRZUMF11", Int64.Type}, {"PRZUMF12", Int64.Type}, {"FLPPMF1", type text}, {"PZNEMF1", Int64.Type}, {"PZNEMF11", Int64.Type}, {"PZNEMF12", Int64.Type}, {"PZNLMF1", Int64.Type}, {"PZNLMF11", Int64.Type}, {"PZNLMF12", Int64.Type}, {"SCN1MF1", Int64.Type}, {"SCN2MF1", Int64.Type}, {"SCN3MF1", Int64.Type}, {"SCN4MF1", Int64.Type}, {"SCCAMF1", Int64.Type}, {"SCCAMF12", Int64.Type}, {"FSCCMF1", type text}, {"AUSCMF1", Int64.Type}, {"AUSCMF12", Int64.Type}, {"FAUSMF1", type text}, {"TANOMF1", Int64.Type}, {"TANOMF12", Int64.Type}, {"FTAOMF1", type text}, {"AUPRMF1", Int64.Type}, {"AUPRMF12", Int64.Type}, {"FAUPMF1", type text}, {"SCPMMF1", Int64.Type}, {"SCPMMF12", Int64.Type}, {"FAPMMF1", type text}, {"SCNCMF1", Int64.Type}, {"SCNCMF12", Int64.Type}, {"FSNCMF1", type text}, {"PRV1MF1", Int64.Type}, {"PRV2MF1", Int64.Type}, {"PRI1MF1", Int64.Type}, {"PRI1MF12", Int64.Type}, {"PRI2MF1", Int64.Type}, {"PRI2MF12", Int64.Type}, {"CDPRMF1", Int64.Type}, {"CDMGMF1", Int64.Type}, {"DSARMF1", type text}, {"DSFAMF1", type text}, {"TPORMF1", type text}, {"NRORMF1", Int64.Type}, {"NRGOMF1", Int64.Type}, {"NSROMF1", Int64.Type}, {"CDCOMF1", type text}, {"CDSCMF1", type text}, {"CDCCMF1", type text}, {"LOTMMF1", type text}, {"ORPRMF1", Int64.Type}, {"CDCLMF1", Int64.Type}, {"CDMUMF1", Int64.Type}, {"NCOLMF1", Int64.Type}, {"NCONMF1", Int64.Type}, {"PESOMF1", Int64.Type}, {"PESLMF1", Int64.Type}, {"VOUNMF1", Int64.Type}, {"CDCFMF1", Int64.Type}, {"PROMMF1", Int64.Type}, {"FLPMMF1", type text}, {"FLNPMF1", type text}, {"TDOFMF1", type text}, {"NRFFMF1", Int64.Type}, {"TPACMF1", type text}, {"MOCSMF1", type text}, {"FLANMF1", type text}, {"IMSMMF1", Int64.Type}, {"IMSMMF12", Int64.Type}, {"IMOMMF1", Int64.Type}, {"IMOMMF12", Int64.Type}, {"RIFEMF1", type text}, {"CLIEMF1", type text}, {"CDLTMF1", type text}, {"INDMMF1", Int64.Type}, {"CDAEMF1", type any}, {"CDLRMF1", type text}, {"VLNMMF1", Int64.Type}, {"VLNMMF12", Int64.Type}, {"COMAMF1", Int64.Type}, {"COMAMF12", Int64.Type}, {"FLR1MF1", type text}, {"FLR2MF1", Int64.Type}, {"FLR3MF1", type text}, {"FLR4MF1", type text}, {"FLR5MF1", type text}, {"Column131", type any}}),
+				    #"Rinominate colonne" = Table.RenameColumns(#"Modificato tipo",{{"DT01MF1", "Data inserimento ricezione"}, {"CDARMF1", "Codice Articolo"}, {"CDUMMF1", "Unità misura"}, {"QTENMF1", "Quantità ricevuta"}, {"QTIFMF1", "Quantità iniziale"}, {"QTBOMF1", "Quantità bolla"}, {"VTMOMF1", "Valuta totale"}, {"PRZUMF1", "Prezzo Unitario"}, {"DSARMF1", "Descrizione Articolo"}, {"TPORMF1", "tipo_documento_Galileo"}, {"NRORMF1", "numero_ordine_Galileo"}, {"NRGOMF1", "Riga Ordine Galileo"}, {"CDCFMF1", "codice_fornitore_Galileo"},{"NRDFMF1", "Numero Ricezione Galileo"},{"NRRGMF1", "Riga Ricezione Galileo"},{"TDOCMF1", "Tipo Ricezione Galileo"}}),
+				    #"Rimosse altre colonne" = Table.SelectColumns(#"Rinominate colonne",{"Data inserimento ricezione", "Tipo Ricezione Galileo", "Numero Ricezione Galileo", "Riga Ricezione Galileo", "Codice Articolo", "Unità misura", "Quantità ricevuta", "Quantità iniziale", "Quantità bolla", "Valuta totale", "Prezzo Unitario", "Descrizione Articolo", "tipo_documento_Galileo", "numero_ordine_Galileo", "Riga Ordine Galileo", "codice_fornitore_Galileo"}),
+				    #"Merge di query eseguito" = Table.NestedJoin(#"Rimosse altre colonne", {"codice_fornitore_Galileo"}, #"S/Conto (sco) - Ricezioni Galileo", {"Codice fornitore Galileo"}, "S/Conto (sco) - Ricezioni Galileo", JoinKind.LeftOuter),
+				    #"Tabella S/Conto (sco) - Ricezioni Galileo espansa" = Table.ExpandTableColumn(#"Merge di query eseguito", "S/Conto (sco) - Ricezioni Galileo", {"codice_fornitore", "Descrizione fornitore"}, {"codice_fornitore", "Descrizione fornitore"}),
+				    #"Rinominate colonne1" = Table.RenameColumns(#"Tabella S/Conto (sco) - Ricezioni Galileo espansa",{{"codice_fornitore", "codice_fornitore_F12"}})
+				in
+				    #"Rinominate colonne1"
+
+	annotation PBI_NavigationStepName = Navigazione
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,48 @@
+expression 'Errori in Ricezioni Galileo (MGMOF01F)' =
+		let
+		Origine = #"Ricezioni Galileo (MGMOF01F)",
+		  #"Tipi non corrispondenti rilevati" = let
+		    tableWithOnlyPrimitiveTypes = Table.SelectColumns(Origine, Table.ColumnsOfType(Origine, {type nullable number, type nullable text, type nullable logical, type nullable date, type nullable datetime, type nullable datetimezone, type nullable time, type nullable duration})),
+		    recordTypeFields = Type.RecordFields(Type.TableRow(Value.Type(tableWithOnlyPrimitiveTypes))),
+		    fieldNames = Record.FieldNames(recordTypeFields),
+		    fieldTypes = List.Transform(Record.ToList(recordTypeFields), each [Type]),
+		    pairs = List.Transform(List.Positions(fieldNames), (i) => {fieldNames{i}, (v) => if v = null or Value.Is(v, fieldTypes{i}) then v else error [Message = "Il tipo del valore non corrisponde al tipo della colonna.", Detail = v], fieldTypes{i}})
+		in
+		    Table.TransformColumns(Origine, pairs),
+		  #"Aggiunta colonna indice" = Table.AddIndexColumn(#"Tipi non corrispondenti rilevati", "Numero riga" ,1),
+		  #"Mantenuti errori" = Table.SelectRowsWithErrors(#"Aggiunta colonna indice", {"Data inserimento ricezione", "Tipo Ricezione Galileo", "Numero Ricezione Galileo", "Riga Ricezione Galileo", "Codice Articolo", "Unità misura", "Quantità ricevuta", "Quantità iniziale", "Quantità bolla", "Valuta totale", "Prezzo Unitario", "Descrizione Articolo", "tipo_documento_Galileo", "numero_ordine_Galileo", "Riga Ordine Galileo", "codice_fornitore_Galileo", "codice_fornitore_F12"}),
+		  #"Riordinate colonne" = Table.ReorderColumns(#"Mantenuti errori", {"Numero riga", "Data inserimento ricezione", "Tipo Ricezione Galileo", "Numero Ricezione Galileo", "Riga Ricezione Galileo", "Codice Articolo", "Unità misura", "Quantità ricevuta", "Quantità iniziale", "Quantità bolla", "Valuta totale", "Prezzo Unitario", "Descrizione Articolo", "tipo_documento_Galileo", "numero_ordine_Galileo", "Riga Ordine Galileo", "codice_fornitore_Galileo", "codice_fornitore_F12"}),
+		    #"Rimossi errori" = Table.RemoveRowsWithErrors(#"Riordinate colonne", {"Numero riga"})
+		in
+		  #"Rimossi errori"
+	lineageTag: a9ab6344-cb5c-4389-82b9-bbd6cd15da1d
+	queryGroup: 'Errori di query - 16/12/2024 11:40:30'
+
+	annotation PBI_NavigationStepName = Navigazione
+
+	annotation PBI_ResultType = Table
+
+expression 'Errori in Ricezioni Galileo (MGMOF01F) (2)' =
+		let
+		Origine = #"Ricezioni Galileo (MGMOF01F)",
+		  #"Tipi non corrispondenti rilevati" = let
+		    tableWithOnlyPrimitiveTypes = Table.SelectColumns(Origine, Table.ColumnsOfType(Origine, {type nullable number, type nullable text, type nullable logical, type nullable date, type nullable datetime, type nullable datetimezone, type nullable time, type nullable duration})),
+		    recordTypeFields = Type.RecordFields(Type.TableRow(Value.Type(tableWithOnlyPrimitiveTypes))),
+		    fieldNames = Record.FieldNames(recordTypeFields),
+		    fieldTypes = List.Transform(Record.ToList(recordTypeFields), each [Type]),
+		    pairs = List.Transform(List.Positions(fieldNames), (i) => {fieldNames{i}, (v) => if v = null or Value.Is(v, fieldTypes{i}) then v else error [Message = "Il tipo del valore non corrisponde al tipo della colonna.", Detail = v], fieldTypes{i}})
+		in
+		    Table.TransformColumns(Origine, pairs),
+		  #"Aggiunta colonna indice" = Table.AddIndexColumn(#"Tipi non corrispondenti rilevati", "Numero riga" ,1),
+		  #"Mantenuti errori" = Table.SelectRowsWithErrors(#"Aggiunta colonna indice", {"Data inserimento ricezione", "Tipo Ricezione Galileo", "Numero Ricezione Galileo", "Riga Ricezione Galileo", "Codice Articolo", "Unità misura", "Quantità ricevuta", "Quantità iniziale", "Quantità bolla", "Valuta totale", "Prezzo Unitario", "Descrizione Articolo", "tipo_documento_Galileo", "numero_ordine_Galileo", "Riga Ordine Galileo", "codice_fornitore_Galileo", "codice_fornitore_F12", "Descrizione fornitore"}),
+		  #"Riordinate colonne" = Table.ReorderColumns(#"Mantenuti errori", {"Numero riga", "Data inserimento ricezione", "Tipo Ricezione Galileo", "Numero Ricezione Galileo", "Riga Ricezione Galileo", "Codice Articolo", "Unità misura", "Quantità ricevuta", "Quantità iniziale", "Quantità bolla", "Valuta totale", "Prezzo Unitario", "Descrizione Articolo", "tipo_documento_Galileo", "numero_ordine_Galileo", "Riga Ordine Galileo", "codice_fornitore_Galileo", "codice_fornitore_F12", "Descrizione fornitore"}),
+		    #"Rimossi errori" = Table.RemoveRowsWithErrors(#"Riordinate colonne", {"Numero riga"})
+		in
+		  #"Rimossi errori"
+	lineageTag: e73df171-c2e6-44f5-9136-5035ce46839e
+	queryGroup: 'Errori di query - 16/12/2024 11:49:03'
+
+	annotation PBI_NavigationStepName = Navigazione
+
+	annotation PBI_ResultType = Table
+
