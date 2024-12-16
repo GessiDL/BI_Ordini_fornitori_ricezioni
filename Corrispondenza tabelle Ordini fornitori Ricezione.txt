@@ -49,7 +49,10 @@ QTBOMF1 = Quantità bolla
 VTMOMF1 = Valuta totale
 PRZUMF1 = Prezzo Unitario
 DSARMF1 = Descrizione Articolo
-TPORMF1 = tipo_documento
-NRORMF1 = numero_ordine
+TPORMF1 = tipo_documento_Galileo
+NRORMF1 = numero_ordine_Galileo
 NRGOMF1 = Riga Ordine Galileo
-CDCFMF1 = codice_fornitore
+CDCFMF1 = codice_fornitore_Galileo
+NRDFMF1", "Numero Ricezione Galileo
+NRRGMF1", "Riga Ricezione Galileo
+TDOCMF1", "Tipo Ricezione Galileo
